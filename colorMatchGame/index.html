@@ -5,35 +5,19 @@
   <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The color match game</title>
-  <style>
-    #firstMain{
-      display: grid;
-      grid-template-columns: 700px 700px;
-    }
-    #container{
-      display: grid;
-      grid-template-columns: 100px 100px 100px 100px 100px 100px;
-      grid-template-rows: 100px 100px 100px 100px 100px;
-      gap: 20px;
-    }
-    #clock{
-      font-size: 200px;
-      }
-
-  </style>
+  
 </head>
 <body>
+  <main>
     <h1>The Color Match Game</h1>
     <p>Let´s play guessing the color match. When you will click over a box It will reveal the real color.
       In that moment, You have to drag the box to the place that you think you can find the match. 
       If it is a color match, both of them will keep open showing the real color. If it is not a Color
       match, both of them will back to black. At the end, you can see how long took you finish the game
     </p> 
-<main id="firstMain">
-  <section id="container">
-    
-
-  </section>
+  <section id="board">
+      <section id="container">
+      </section>
 
   <section id="clock">
     <label id="minutes">00</label>
@@ -41,7 +25,10 @@
     <label id="seconds">00</label>
   </section>
 
+  </section>
   </main>
+    
+
   <script type="module" src="src/main.js"></script>
   </body>
 

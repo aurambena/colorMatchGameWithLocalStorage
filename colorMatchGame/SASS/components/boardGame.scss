@@ -1,0 +1,18 @@
+h1{
+    color: red;
+}
+
+#board{
+    display: grid;
+    grid-template-columns: 700px 700px;
+  }
+  #container{
+    display: grid;
+    
+  }
+  #clock{
+    font-size: 200px;
+    padding: 20px;
+    padding-left: 40px;
+    padding-top: 60px;
+    }
