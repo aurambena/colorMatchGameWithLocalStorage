@@ -7,6 +7,7 @@ class Game{
     #cols
     #rows
     #pairs
+   
     constructor(colorsArray, randomNumbers, droppableArea, rows, cols, pairs){
         this.#colorsArray = colorsArray;
         this.#randomNumbers = randomNumbers;
@@ -14,6 +15,7 @@ class Game{
         this.#cols = cols;
         this.#rows = rows;
         this.#pairs = pairs;
+      
         let rn = this.createRandomNumbers();
         let cb = this.createBoxes();
         let pb = this.paintingBoxes();
@@ -38,6 +40,7 @@ class Game{
         return this.#droppableArea;
     }
 
+
     //function to assign random number between 0 and 29 (number of colors)
     createRandomNumbers(){
         //Assign random number between 0 and 29 (number of colors)
@@ -60,29 +63,83 @@ class Game{
         return this.#randomNumbers;
         
     }
-    createBoxes(){
-        //Create div tags and add attributes
-        for (let i=0; i<(this.pairs*2); i++){
-            let divs = document.createElement('div');
-            //Attribute allows drag items if it is true
-            divs.setAttribute('draggable', 'false');
-            //Attribute class colors
-            divs.setAttribute('class', 'colors');
-            //Attribute data-color assigning a random color for each div
-            divs.setAttribute('data-color', this.#colorsArray[Number(this.#randomNumbers[i])]);
-            //Insert div tags to the section tag, index.html file
-            this.#droppableArea.appendChild(divs);
-       }
+    createBoxes(){   
+        //If there are data on local storage
+        if (localStorage.getItem('boxes')!== null){
+            let attributesFromLocalStorage = JSON.parse(localStorage.getItem('boxes'));
+                attributesFromLocalStorage.map(box=>{
+                    let divs = document.createElement('div');
+                    console.log(box.draggable, box.colors, box.color, box.status);
+                    //Attribute allows drag items if it is true
+                    divs.setAttribute('draggable', box.draggable); 
+                    divs.setAttribute('class', 'colors');
+                    //Attribute status
+                    divs.setAttribute('status', box.status);
+                    //Attribute data-color assigning a random color for each div
+                    divs.setAttribute('data-color', box.color);
+                    this.#droppableArea.appendChild(divs);
+            })
+        
+        }else{
+            
+            //Create div tags and add attributes if there are not data on local storage
+            for (let i=0; i<(this.pairs*2); i++){
+                let divs = document.createElement('div');
+                //Attribute allows drag items if it is true
+                divs.setAttribute('draggable', 'false');
+                //Attribute class colors
+                divs.setAttribute('class', 'colors');
+                 //Attribute status
+                 divs.setAttribute('status', 'close');
+                //Attribute data-color assigning a random color for each div
+                divs.setAttribute('data-color', this.#colorsArray[Number(this.#randomNumbers[i])]);
+                //Insert div tags to the section tag, index.html file   
+                this.#droppableArea.appendChild(divs);
+                this.arrayBoxesToLocalStorage();
+                this.paintingBoxes();             
+                
+        }
+        }
+        
     }
-    paintingBoxes(){
-        this.boxTemplates();
-        let colors = document.getElementsByClassName('colors');
-        //Walk through the colors class elements 
-        for(let c of colors){
-            //Set the box background color style
-            c.style.backgroundColor = 'black';
+    
+    
+    arrayBoxesToLocalStorage(){
+        let currentGame = document.getElementsByTagName('div');
+        let arrayCurrentGame = [];
+        for (let game of currentGame){
+            let currentStatus = game.getAttribute('status');
+            let currentColor = game.getAttribute('data-color');
+            arrayCurrentGame.push({
+                color: currentColor,
+                status: currentStatus,
+                draggable : 'false',
+                class : 'colors',
+            });
+    
+            localStorage.setItem('boxes', JSON.stringify(arrayCurrentGame));
         }
     }
+
+    paintingBoxes(){
+        this.boxTemplates();
+        let colors = document.getElementsByClassName('colors');        
+        //Walk through the colors class elements 
+        for(let c of colors){
+            if(c.getAttribute('status')=='open'){
+                c.style.backgroundColor = c.getAttribute('data-color')
+            }else{
+                //Set the box background color style
+                c.style.backgroundColor = 'black';
+            }
+        }
+    }
+
+    initTimer(){
+        let timer = new Timer();
+
+    }
+
     boxTemplates(){
         this.droppableArea.style.gridTemplateRows = `repeat(${this.rows}, 50px)`;
         this.droppableArea.style.gridTemplateColumns = `repeat(${this.cols}, 1fr)`;
@@ -103,13 +160,16 @@ class Game{
         this.droppableArea = document.getElementById('container');
         //Select all colors class items
         let colors = document.getElementsByClassName('colors');
-      
+        
         return{
             color: this.colorsArray,
             randomNumber: randomNumbers,
             dropArea: this.droppableArea,
             getColor: colors,
+            
         };
+        
+
         }
 
     static getRowsCols(){
@@ -117,11 +177,9 @@ class Game{
         let rows;
         let cols;
         if(localStorage.getItem('pairs')!==null){
-            debugger
             pairs = parseInt(localStorage.getItem('pairs'));
             rows = parseInt(localStorage.getItem('rows'));
             cols = parseInt(localStorage.getItem('cols'));
-            debugger
         }else{
             //Ask for pairs number
             let pairs = parseInt(prompt('How many pairs do you want?'));
@@ -165,7 +223,6 @@ class Game{
                 localStorage.setItem('pairs', pairs)
                 localStorage.setItem('rows', rows)
                 localStorage.setItem('cols',   cols)
-                debugger
                 return {
                     row : rows,
                     col : cols,
@@ -181,6 +238,7 @@ class Game{
         }
     static resetGame(){
         localStorage.removeItem('pairs');
+        localStorage.removeItem('boxes');
         location.reload();
     }
 }
