@@ -1,4 +1,6 @@
 import Box from "./Box";
+import Timer from "./Timer";
+
 
 class Game{
     #colorsArray;
@@ -63,13 +65,14 @@ class Game{
         return this.#randomNumbers;
         
     }
+
     createBoxes(){   
         //If there are data on local storage
         if (localStorage.getItem('boxes')!== null){
             let attributesFromLocalStorage = JSON.parse(localStorage.getItem('boxes'));
                 attributesFromLocalStorage.map(box=>{
                     let divs = document.createElement('div');
-                    console.log(box.draggable, box.colors, box.color, box.status);
+                    console.log(box.draggable, box.colors, box.color, box.status, box.seconds, box.minutes);
                     //Attribute allows drag items if it is true
                     divs.setAttribute('draggable', box.draggable); 
                     divs.setAttribute('class', 'colors');
@@ -78,6 +81,7 @@ class Game{
                     //Attribute data-color assigning a random color for each div
                     divs.setAttribute('data-color', box.color);
                     this.#droppableArea.appendChild(divs);
+                    let timer = new Timer();
             })
         
         }else{
@@ -103,7 +107,6 @@ class Game{
         
     }
     
-    
     arrayBoxesToLocalStorage(){
         let currentGame = document.getElementsByTagName('div');
         let arrayCurrentGame = [];
@@ -115,6 +118,7 @@ class Game{
                 status: currentStatus,
                 draggable : 'false',
                 class : 'colors',
+                
             });
     
             localStorage.setItem('boxes', JSON.stringify(arrayCurrentGame));
@@ -135,16 +139,12 @@ class Game{
         }
     }
 
-    initTimer(){
-        let timer = new Timer();
-
-    }
-
     boxTemplates(){
         this.droppableArea.style.gridTemplateRows = `repeat(${this.rows}, 50px)`;
         this.droppableArea.style.gridTemplateColumns = `repeat(${this.cols}, 1fr)`;
         this.droppableArea.style.gap = '20px';
     }
+
     static setColors(){
         //Random colors code
         //create color pairs array
@@ -239,6 +239,7 @@ class Game{
     static resetGame(){
         localStorage.removeItem('pairs');
         localStorage.removeItem('boxes');
+        localStorage.removeItem('timer');
         location.reload();
     }
 }

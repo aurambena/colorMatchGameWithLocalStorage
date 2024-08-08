@@ -8,7 +8,6 @@ resetButton.addEventListener('click',()=>{
     Game.resetGame();
 });
 
-let timer = new Timer();
 let data = Game.getRowsCols();
 let setColor = Game.setColors();
 let game = new Game(setColor.color, setColor.randomNumber, setColor.dropArea, data.row, data.col, data.pair);

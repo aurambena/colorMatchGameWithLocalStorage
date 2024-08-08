@@ -1,9 +1,6 @@
 import Game from "./Game";
 import Timer from "./Timer";
-// let setTime = Timer.setTime();
-// let time = new Timer(setTime.total, setTime.seconds, setTime.minutes);
-// let setPad = Timer.pad();
-// let pad = new Timer(pad.val);
+
 class Box{
     #colorsArray;
     #randomNumbers;
@@ -36,18 +33,37 @@ class Box{
     addEventClick(){
         for (let c of this.colors){
             c.addEventListener('click', ()=>{
-            //when click, get real color from the attribute data-color 
-            let color = c.dataset.color;
-            //Reveal the real color 
-            c.style.backgroundColor = color;
-             //Activate drag function changing the attribute state
-            c.setAttribute('draggable', 'true');
-            //add color to the empty array
-            this.click.push(c);
-            //if there is 2 boxes that not match, they turn back to black
-            if(this.click.length > 1){
-                c.style.backgroundColor = 'black';
-            }
+                let seconds = document.getElementById("seconds");
+                console.log(seconds.innerText);
+                if(seconds.innerText == '00'){
+                     //when click, get real color from the attribute data-color 
+                     let color = c.dataset.color;
+                     //Reveal the real color 
+                     c.style.backgroundColor = color;
+                      //Activate drag function changing the attribute state
+                     c.setAttribute('draggable', 'true');
+                     //add color to the empty array
+                     this.click.push(c);
+                     let timer = new Timer();
+                     //if there is 2 boxes that not match, they turn back to black
+                     if(this.click.length > 1){
+                         c.style.backgroundColor = 'black';
+                     }
+                }else{
+                    //when click, get real color from the attribute data-color 
+                    let color = c.dataset.color;
+                    //Reveal the real color 
+                    c.style.backgroundColor = color;
+                     //Activate drag function changing the attribute state
+                    c.setAttribute('draggable', 'true');
+                    //add color to the empty array
+                    this.click.push(c);
+                    //if there is 2 boxes that not match, they turn back to black
+                    if(this.click.length > 1){
+                        c.style.backgroundColor = 'black';
+                    }
+                }
+            
             let click = this.click;
             let drag = this.dragStart(c);
             let drop = this.dropItem(click,c);
@@ -129,11 +145,13 @@ class Box{
             for (let game of currentGame){
                 let currentStatus = game.getAttribute('status');
                 let currentColor = game.getAttribute('data-color');
+                
                 arrayCurrentGame.push({
                     color: currentColor,
                     status: currentStatus,
                     draggable : 'false',
                     class : 'colors',
+                   
                 });
                 localStorage.setItem('boxes', JSON.stringify(arrayCurrentGame));
             }               
