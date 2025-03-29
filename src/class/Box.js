@@ -28,6 +28,7 @@ class Box{
     }
 
     addEventClick(){
+        debugger
         for (let c of this.colors){
             //Add event click to every box
             c.addEventListener('click', ()=>{

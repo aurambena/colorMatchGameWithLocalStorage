@@ -44,6 +44,7 @@ class Game{
 
     //function to assign random number between 0 and boxes numbers 
     createRandomNumbers(){
+        debugger
         //Assign random number between 0 and boxes number 
         for(let k=0; k<this.pairs*2;k++){            
             for(let j=0; j<this.pairs*2;j++){   

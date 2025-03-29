@@ -3,8 +3,10 @@ import "../SASS/main.scss";
 import Game from "./class/Game";
 import Box from "./class/Box";
 
+debugger
 //Create reset button on index and add event click listener
 let resetButton = document.getElementById('reset');
+debugger
 resetButton.addEventListener('click',()=>{
     Game.resetGame();
 });
