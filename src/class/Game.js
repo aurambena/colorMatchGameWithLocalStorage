@@ -107,7 +107,7 @@ class Game{
                 //Call method for painting boxes
                 this.paintingBoxes();                    
             }
-        }  
+        }
     }
     
     arrayBoxesToLocalStorage(){

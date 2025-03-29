@@ -51,7 +51,8 @@ class Timer{
         }else{
             return valString;
         }
-    }   
+    }
+    
 }
 
 //Export class

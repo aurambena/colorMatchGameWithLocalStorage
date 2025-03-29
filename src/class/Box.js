@@ -177,7 +177,6 @@ class Box{
         }       
     }    
 
-
     dragOver(){
         //Dragover event
         this.droppableArea.addEventListener('dragover', (e)=>{
